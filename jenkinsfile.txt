@@ -55,12 +55,9 @@ pipeline {
                 body: """
                 Good news! The build ${env.JOB_NAME} [${env.BUILD_NUMBER}] was successful.
                 You can view it at: ${env.BUILD_URL}
-
-                Jenkins Build Log:
-                ${currentBuild.rawBuild.getLog(50).join("\n")}
                 """,
-                to: 'smitpatel12333@gmail.com',
-                recipientProviders: [[$class: 'DevelopersRecipientProvider']]
+                to: 'smitpatel12333@gmail.com'
+                
             )
         }
         failure {
@@ -69,12 +66,8 @@ pipeline {
                 body: """
                 Unfortunately, the build ${env.JOB_NAME} [${env.BUILD_NUMBER}] failed.
                 Please check the Jenkins logs at: ${env.BUILD_URL}
-
-                Jenkins Build Log:
-                ${currentBuild.rawBuild.getLog(50).join("\n")}
                 """,
-                to: 'smitpatel12333@gmail.com',
-                recipientProviders: [[$class: 'CulpritsRecipientProvider']]
+                to: 'smitpatel12333@gmail.com'
             )
         }
         always {
