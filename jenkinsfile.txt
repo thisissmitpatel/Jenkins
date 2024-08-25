@@ -72,7 +72,7 @@ pipeline {
             )
         }
         always {
-            echo 'This will always run after all stages have completed.'
+            echo 'This will always run after all the stages have completed.'
         }
     }
 }
