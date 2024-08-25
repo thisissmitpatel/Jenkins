@@ -56,8 +56,8 @@ pipeline {
                 Good news! The build ${env.JOB_NAME} [${env.BUILD_NUMBER}] was successful.
                 You can view it at: ${env.BUILD_URL}
                 """,
-                to: 'smitpatel12333@gmail.com'
-                
+                to: 'smitpatel12333@gmail.com',
+                attachLog: true
             )
         }
         failure {
@@ -67,7 +67,8 @@ pipeline {
                 Unfortunately, the build ${env.JOB_NAME} [${env.BUILD_NUMBER}] failed.
                 Please check the Jenkins logs at: ${env.BUILD_URL}
                 """,
-                to: 'smitpatel12333@gmail.com'
+                to: 'smitpatel12333@gmail.com',
+                attachLog: true
             )
         }
         always {
