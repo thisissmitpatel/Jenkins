@@ -56,7 +56,7 @@ pipeline {
                 Jenkins Build Log:
                 ${currentBuild.rawBuild.getLog(50).join("\n")}
                 """,
-                to: 'team@example.com',
+                to: 'smitpatel12333@gmail.com',
                 recipientProviders: [[$class: 'DevelopersRecipientProvider']]
             )
         }
@@ -70,7 +70,7 @@ pipeline {
                 Jenkins Build Log:
                 ${currentBuild.rawBuild.getLog(50).join("\n")}
                 """,
-                to: 'team@example.com',
+                to: 'smitpatel12333@gmail.com',
                 recipientProviders: [[$class: 'CulpritsRecipientProvider']]
             )
         }
