@@ -10,40 +10,53 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo "Fetch the source code from the directory path specified by DIRECTORY_PATH environment variable: ${env.DIRECTORY_PATH}"
-                echo "Compile the code and generate any necessary artifacts"
+                echo "Building the code using Maven..."
+                echo "Command: mvn clean package"
             }
         }
 
-        stage('Test') {
+        stage('Unit and Integration Tests') {
             steps {
-                echo "Unit tests"
-                echo "Integration tests"
+                echo "Running unit tests..."
+                echo "Command: mvn test"
+
+                echo "Running integration tests..."
+                echo "Command: mvn verify"
             }
         }
 
-        stage('Code Quality Check') {
+        stage('Code Analysis') {
             steps {
-                echo "Check the quality of the code"
+                echo "Analyzing code with SonarQube..."
+                echo "Command: mvn sonar:sonar"
             }
         }
 
-        stage('Deploy') {
+        stage('Security Scan') {
             steps {
-                echo "Deploy the application to a testing environment: ${env.TESTING_ENVIRONMENT}"
+                echo "Performing security scan with OWASP ZAP..."
+                echo "Command: zap-cli quick-scan http://localhost:8080"
             }
         }
 
-        stage('Approval') {
+        stage('Deploy to Staging') {
             steps {
-                echo "Waiting for manual approval..."
-                sleep(time: 10, unit: 'SECONDS')
+                echo "Deploying application to staging environment..."
+                echo "Command: scp -i your-key.pem target/your-app.jar user@staging-server:/path/to/deploy"
+            }
+        }
+
+        stage('Integration Tests on Staging') {
+            steps {
+                echo "Running integration tests on staging environment..."
+                echo "Command: mvn verify -Denv=staging"
             }
         }
 
         stage('Deploy to Production') {
             steps {
-                echo "Deploy the code to the production environment: ${env.PRODUCTION_ENVIRONMENT}"
+                echo "Deploying application to production environment..."
+                echo "Command: scp -i your-key.pem target/your-app.jar user@production-server:/path/to/deploy"
             }
         }
     }
@@ -72,7 +85,7 @@ pipeline {
             )
         }
         always {
-            echo 'This will always run after all the stages have completed.'
+            echo 'This will always run after all stages have completed.'
         }
     }
 }
