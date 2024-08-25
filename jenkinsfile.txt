@@ -45,6 +45,37 @@ pipeline {
             steps {
                 echo "Deploy the code to the production environment: ${env.PRODUCTION_ENVIRONMENT}"
             }
+        post {
+        success {
+            emailext(
+                subject: "SUCCESS: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
+                body: """
+                Good news! The build ${env.JOB_NAME} [${env.BUILD_NUMBER}] was successful.
+                You can view it at: ${env.BUILD_URL}
+
+                Jenkins Build Log:
+                ${currentBuild.rawBuild.getLog(50).join("\n")}
+                """,
+                to: 'team@example.com',
+                recipientProviders: [[$class: 'DevelopersRecipientProvider']]
+            )
+        }
+        failure {
+            emailext(
+                subject: "FAILURE: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
+                body: """
+                Unfortunately, the build ${env.JOB_NAME} [${env.BUILD_NUMBER}] failed.
+                Please check the Jenkins logs at: ${env.BUILD_URL}
+
+                Jenkins Build Log:
+                ${currentBuild.rawBuild.getLog(50).join("\n")}
+                """,
+                to: 'team@example.com',
+                recipientProviders: [[$class: 'CulpritsRecipientProvider']]
+            )
+        }
+        always {
+            echo 'This will always run after all stages have completed.'
         }
     }
 }
