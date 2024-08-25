@@ -45,7 +45,10 @@ pipeline {
             steps {
                 echo "Deploy the code to the production environment: ${env.PRODUCTION_ENVIRONMENT}"
             }
-        post {
+        }
+    }
+
+    post {
         success {
             emailext(
                 subject: "SUCCESS: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
